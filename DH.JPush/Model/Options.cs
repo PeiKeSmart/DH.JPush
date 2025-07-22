@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Jiguang.JPush.Model;
 
@@ -66,61 +67,59 @@ public class Options
     }
 }
 
-public class OptionsJsonConvert : JsonConverter 
+public class OptionsJsonConvert : JsonConverter<Options>
 {
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override Options? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new Exception("Unsupport ReadJson convert.");
+        throw new NotSupportedException("Deserialization is not supported for Options.");
     }
 
-    public override bool CanConvert(Type objectType)
-    {
-        if (objectType.FullName == typeof(Options).FullName)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void Write(Utf8JsonWriter writer, Options value, JsonSerializerOptions options)
     {
         if (value == null)
         {
-            writer.WriteNull();
+            writer.WriteNullValue();
             return;
         }
+
         writer.WriteStartObject();
-        Options options = (Options) value;
-        if (options.SendNo != null) {
-            writer.WritePropertyName("sendno");
-            writer.WriteValue(options.SendNo);
+
+        if (value.SendNo != null)
+        {
+            writer.WriteNumber("sendno", value.SendNo.Value);
         }
-        if (options.TimeToLive != null) {
-            writer.WritePropertyName("time_to_live");
-            writer.WriteValue(options.TimeToLive);
+
+        if (value.TimeToLive != null)
+        {
+            writer.WriteNumber("time_to_live", value.TimeToLive.Value);
         }
-        if (options.OverrideMessageId != null) {
-            writer.WritePropertyName("override_msg_id");
-            writer.WriteValue(options.OverrideMessageId);
+
+        if (value.OverrideMessageId != null)
+        {
+            writer.WriteNumber("override_msg_id", value.OverrideMessageId.Value);
         }
-        writer.WritePropertyName("apns_production");
-        writer.WriteValue(options.IsApnsProduction);
-        if (options.ApnsCollapseId != null) {
-            writer.WritePropertyName("apns_collapse_id");
-            writer.WriteValue(options.ApnsCollapseId);
+
+        writer.WriteBoolean("apns_production", value.IsApnsProduction);
+
+        if (value.ApnsCollapseId != null)
+        {
+            writer.WriteString("apns_collapse_id", value.ApnsCollapseId);
         }
-        if (options.BigPushDuration != null) {
-            writer.WritePropertyName("big_push_duration");
-            writer.WriteValue(options.BigPushDuration);
+
+        if (value.BigPushDuration != null)
+        {
+            writer.WriteNumber("big_push_duration", value.BigPushDuration.Value);
         }
-        if (options.Dict != null) {
-            foreach (KeyValuePair<string, object> item in options.Dict)
+
+        if (value.Dict != null)
+        {
+            foreach (var item in value.Dict)
             {
                 writer.WritePropertyName(item.Key);
-                serializer.Serialize(writer, item.Value);
+                JsonSerializer.Serialize(writer, item.Value, options);
             }
         }
+
+        writer.WriteEndObject();
     }
 }
