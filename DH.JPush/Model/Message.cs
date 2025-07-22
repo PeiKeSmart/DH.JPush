@@ -1,27 +1,26 @@
-﻿using Newtonsoft.Json;
-using System.Collections;
+﻿using System.Collections;
+using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+/// <summary>
+/// 自定义消息。
+/// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#message"/>
+/// </summary>
+public class Message
 {
     /// <summary>
-    /// 自定义消息。
-    /// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#message"/>
+    /// 消息内容本身（必填）。
     /// </summary>
-    public class Message
-    {
-        /// <summary>
-        /// 消息内容本身（必填）。
-        /// </summary>
-        [JsonProperty("msg_content")]
-        public string Content { get; set; }
+    [JsonPropertyName("msg_content")]
+    public String? Content { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+    [JsonPropertyName("title")]
+    public String? Title { get; set; }
 
-        [JsonProperty("content_type")]
-        public string ContentType { get; set; }
+    [JsonPropertyName("content_type")]
+    public String? ContentType { get; set; }
 
-        [JsonProperty("extras")]
-        public IDictionary Extras { get; set; }
-    }
+    [JsonPropertyName("extras")]
+    public IDictionary? Extras { get; set; }
 }
