@@ -1,21 +1,26 @@
-﻿namespace Jiguang.JPush.Model;
+﻿using System.Text.Json.Serialization;
+
+namespace Jiguang.JPush.Model;
 
 /// <summary>
 /// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#notification"/>
 /// </summary>
 public class Notification
 {
-    [JsonProperty("alert")]
-    public string Alert { get; set; }
+    [JsonPropertyName("alert")]
+    public String? Alert { get; set; }
 
-    [JsonProperty("android", NullValueHandling = NullValueHandling.Ignore)]
-    public Android Android { get; set; }
+    [JsonPropertyName("android")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Android? Android { get; set; }
 
-    [JsonProperty("ios", NullValueHandling = NullValueHandling.Ignore)]
-    public IOS IOS { get; set; }
+    [JsonPropertyName("ios")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IOS? IOS { get; set; }
 
-    [JsonProperty("hmos", NullValueHandling = NullValueHandling.Ignore)]
-    public HMOS HMOS { get; set; }
+    [JsonPropertyName("hmos")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HMOS? HMOS { get; set; }
 }
 
 public class Android
@@ -23,65 +28,81 @@ public class Android
     /// <summary>
     /// 必填。
     /// </summary>
-    [JsonProperty("alert")]
-    public string Alert { get; set; }
+    [JsonPropertyName("alert")]
+    public String? Alert { get; set; }
 
-    [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-    public string Title { get; set; }
+    [JsonPropertyName("title")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Title { get; set; }
 
-    [JsonProperty("builder_id", NullValueHandling = NullValueHandling.Ignore)]
-    public int? BuilderId { get; set; }
+    [JsonPropertyName("builder_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? BuilderId { get; set; }
 
-    [JsonProperty("channel_id", NullValueHandling = NullValueHandling.Ignore)]
-    public string ChannelId { get; set; }
+    [JsonPropertyName("channel_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? ChannelId { get; set; }
 
-    [JsonProperty("priority", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Priority { get; set; }
+    [JsonPropertyName("priority")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? Priority { get; set; }
 
-    [JsonProperty("category", NullValueHandling = NullValueHandling.Ignore)]
-    public string Category { get; set; }
+    [JsonPropertyName("category")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Category { get; set; }
 
-    [JsonProperty("style", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Style { get; set; }
+    [JsonPropertyName("style")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? Style { get; set; }
 
-    [JsonProperty("alert_type", NullValueHandling = NullValueHandling.Ignore)]
-    public int? AlertType { get; set; }
+    [JsonPropertyName("alert_type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? AlertType { get; set; }
 
-    [JsonProperty("big_text", NullValueHandling = NullValueHandling.Ignore)]
-    public string BigText { get; set; }
+    [JsonPropertyName("big_text")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? BigText { get; set; }
 
-    [JsonProperty("inbox", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Inbox { get; set; }
+    [JsonPropertyName("inbox")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Inbox { get; set; }
 
-    [JsonProperty("big_pic_path", NullValueHandling = NullValueHandling.Ignore)]
-    public string BigPicturePath { get; set; }
+    [JsonPropertyName("big_pic_path")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? BigPicturePath { get; set; }
 
-    [JsonProperty("large_icon", NullValueHandling = NullValueHandling.Ignore)]
-    public string LargeIcon { get; set; }
+    [JsonPropertyName("large_icon")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? LargeIcon { get; set; }
 
-    [JsonProperty("intent", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Indent { get; set; }
+    [JsonPropertyName("intent")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Indent { get; set; }
 
-    [JsonProperty("extras", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Extras { get; set; }
+    [JsonPropertyName("extras")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Extras { get; set; }
 
     /// <summary>
     /// (VIP only)指定开发者想要打开的 Activity，值为 <activity> 节点的 "android:name" 属性值。
     /// </summary>
-    [JsonProperty("uri_activity", NullValueHandling = NullValueHandling.Ignore)]
-    public string URIActivity { get; set; }
+    [JsonPropertyName("uri_activity")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? URIActivity { get; set; }
 
     /// <summary>
     /// (VIP only)指定打开 Activity 的方式，值为 Intent.java 中预定义的 "access flags" 的取值范围。
     /// </summary>
-    [JsonProperty("uri_flag", NullValueHandling = NullValueHandling.Ignore)]
-    public string URIFlag { get; set; }
+    [JsonPropertyName("uri_flag")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? URIFlag { get; set; }
 
     /// <summary>
     /// (VIP only)指定开发者想要打开的 Activity，值为 <activity> -> <intent-filter> -> <action> 节点中的 "android:name" 属性值。
     /// </summary>
-    [JsonProperty("uri_action", NullValueHandling = NullValueHandling.Ignore)]
-    public string URIAction { get; set; }
+    [JsonPropertyName("uri_action")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? URIAction { get; set; }
 }
 
 public class IOS
@@ -90,32 +111,38 @@ public class IOS
     /// 可以是 string，也可以是 Apple 官方定义的 alert payload 结构。
     /// <para><see ="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html#//apple_ref/doc/uid/TP40008194-CH17-SW5"/></para>
     /// </summary>
-    [JsonProperty("alert")]
-    public object Alert { get; set; }
+    [JsonPropertyName("alert")]
+    public Object? Alert { get; set; }
 
-    [JsonProperty("sound", NullValueHandling = NullValueHandling.Ignore)]
-    public string Sound { get; set; }
+    [JsonPropertyName("sound")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Sound { get; set; }
 
     /// <summary>
     /// 默认角标 +1。
     /// </summary>
-    [JsonProperty("badge")]
-    public string Badge { get; set; } = "+1";
+    [JsonPropertyName("badge")]
+    public String Badge { get; set; } = "+1";
 
-    [JsonProperty("content-available", NullValueHandling = NullValueHandling.Ignore)]
-    public bool? ContentAvailable { get; set; }
+    [JsonPropertyName("content-available")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Boolean? ContentAvailable { get; set; }
 
-    [JsonProperty("mutable-content", NullValueHandling = NullValueHandling.Ignore)]
-    public bool? MutableContent { get; set; }
+    [JsonPropertyName("mutable-content")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Boolean? MutableContent { get; set; }
 
-    [JsonProperty("category", NullValueHandling = NullValueHandling.Ignore)]
-    public string Category { get; set; }
+    [JsonPropertyName("category")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Category { get; set; }
 
-    [JsonProperty("extras", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Extras { get; set; }
+    [JsonPropertyName("extras")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Extras { get; set; }
 
-    [JsonProperty("thread-id", NullValueHandling = NullValueHandling.Ignore)]
-    public string ThreadId { get; set; }
+    [JsonPropertyName("thread-id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? ThreadId { get; set; }
 }
 
 public class HMOS
@@ -123,46 +150,58 @@ public class HMOS
     /// <summary>
     /// 必填。
     /// </summary>
-    [JsonProperty("alert")]
-    public string Alert { get; set; }
+    [JsonPropertyName("alert")]
+    public String? Alert { get; set; }
 
-    [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-    public string Title { get; set; }
+    [JsonPropertyName("title")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Title { get; set; }
 
-    [JsonProperty("category")]
-    public string Category { get; set; }
+    [JsonPropertyName("category")]
+    public String? Category { get; set; }
 
-    [JsonProperty("large_icon", NullValueHandling = NullValueHandling.Ignore)]
-    public string LargeIcon { get; set; }
+    [JsonPropertyName("large_icon")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? LargeIcon { get; set; }
 
-    [JsonProperty("intent", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Intent { get; set; }
+    [JsonPropertyName("intent")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Intent { get; set; }
 
-    [JsonProperty("badge_add_num", NullValueHandling = NullValueHandling.Ignore)]
-    public int? BadgeAddNum { get; set; }
+    [JsonPropertyName("badge_add_num")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? BadgeAddNum { get; set; }
 
-    [JsonProperty("badge_set_num", NullValueHandling = NullValueHandling.Ignore)]
-    public int? BadgeSetNum { get; set; }
+    [JsonPropertyName("badge_set_num")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? BadgeSetNum { get; set; }
 
-    [JsonProperty("test_message", NullValueHandling = NullValueHandling.Ignore)]
-    public bool? TestMessage { get; set; }
+    [JsonPropertyName("test_message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Boolean? TestMessage { get; set; }
 
-    [JsonProperty("receipt_id", NullValueHandling = NullValueHandling.Ignore)]
-    public string ReceiptId { get; set; }
+    [JsonPropertyName("receipt_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? ReceiptId { get; set; }
 
-    [JsonProperty("extras", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Extras { get; set; }
+    [JsonPropertyName("extras")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Extras { get; set; }
 
-    [JsonProperty("style", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Style { get; set; }
+    [JsonPropertyName("style")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? Style { get; set; }
 
-    [JsonProperty("inbox", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object> Inbox { get; set; }
+    [JsonPropertyName("inbox")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Inbox { get; set; }
 
-    [JsonProperty("push_type", NullValueHandling = NullValueHandling.Ignore)]
-    public int? PushType { get; set; }
+    [JsonPropertyName("push_type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32? PushType { get; set; }
 
-    [JsonProperty("extra_data", NullValueHandling = NullValueHandling.Ignore)]
-    public string ExtraData { get; set; }
+    [JsonPropertyName("extra_data")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? ExtraData { get; set; }
     
 }
