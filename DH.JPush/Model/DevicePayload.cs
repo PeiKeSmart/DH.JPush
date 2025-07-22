@@ -1,31 +1,27 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+public class DevicePayload
 {
-    public class DevicePayload
+    [JsonPropertyName("alias")]
+    public String? Alias { get; set; }
+
+    [JsonPropertyName("mobile")]
+    public String? Mobile { get; set; }
+
+    [JsonPropertyName("tags")]
+    public Dictionary<String, Object>? Tags { get; set;}
+
+    private String GetJson()
     {
-        [JsonProperty("alias")]
-        public string Alias { get; set; }
-
-        [JsonProperty("mobile")]
-        public string Mobile { get; set; }
-
-        [JsonProperty("tags")]
-        public Dictionary<string, object> Tags { get; set;}
-
-        private string GetJson()
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions
         {
-            return JsonConvert.SerializeObject(this, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-        }
-
-        public override string ToString()
-        {
-            return GetJson();
-        }
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false
+        });
     }
+
+    public override String ToString() => GetJson();
 }

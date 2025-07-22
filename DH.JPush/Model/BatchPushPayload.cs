@@ -17,8 +17,5 @@ public class BatchPushPayload
         });
     }
 
-    public override String ToString()
-    {
-        return GetJson();
-    }
+    public override String ToString() => GetJson();
 }
