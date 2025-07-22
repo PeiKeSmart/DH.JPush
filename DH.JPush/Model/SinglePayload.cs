@@ -1,50 +1,50 @@
-using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+public class SinglePayload
 {
-    public class SinglePayload
+    /// <summary>
+    /// 推送平台。可以为 "android" / "ios" / "all"。
+    /// </summary>
+    [JsonPropertyName("platform")]
+    public Object Platform { get; set; } = "all";
+
+    /// <summary>
+    /// 推送设备指定。
+    /// 如果是调用RegID方式批量单推接口（/v3/push/batch/regid/single），那此处就是指定regid值；
+    /// 如果是调用Alias方式批量单推接口（/v3/push/batch/alias/single），那此处就是指定alias值。
+    /// </summary>
+    [JsonPropertyName("target")]
+    public String? Target { get; set; }
+
+    [JsonPropertyName("notification")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Notification? Notification { get; set; }
+
+    [JsonPropertyName("message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Message? Message { get; set; }
+
+    [JsonPropertyName("sms_message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SmsMessage? SMSMessage { get; set; }
+
+    [JsonPropertyName("options")]
+    public Options Options { get; set; } = new Options
     {
-        /// <summary>
-        /// 推送平台。可以为 "android" / "ios" / "all"。
-        /// </summary>
-        [JsonProperty("platform", DefaultValueHandling = DefaultValueHandling.Include)]
-        public object Platform { get; set; } = "all";
+        IsApnsProduction = false
+    };
 
-        /// <summary>
-        /// 推送设备指定。
-        /// 如果是调用RegID方式批量单推接口（/v3/push/batch/regid/single），那此处就是指定regid值；
-        /// 如果是调用Alias方式批量单推接口（/v3/push/batch/alias/single），那此处就是指定alias值。
-        /// </summary>
-        [JsonProperty("target", DefaultValueHandling = DefaultValueHandling.Include)]
-        public string Target { get; set; }
-
-        [JsonProperty("notification", NullValueHandling = NullValueHandling.Ignore)]
-        public Notification Notification { get; set; }
-
-        [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
-        public Message Message { get; set; }
-
-        [JsonProperty("sms_message", NullValueHandling = NullValueHandling.Ignore)]
-        public SmsMessage SMSMessage { get; set; }
-
-        [JsonProperty("options", DefaultValueHandling = DefaultValueHandling.Include)]
-        public Options Options { get; set; } = new Options
+    internal String GetJson()
+    {
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions
         {
-            IsApnsProduction = false
-        };
-
-        internal string GetJson()
-        {
-            return JsonConvert.SerializeObject(this, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-        }
-
-        public override string ToString()
-        {
-            return GetJson();
-        }
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false
+        });
     }
+
+    public override String ToString() => GetJson();
 }

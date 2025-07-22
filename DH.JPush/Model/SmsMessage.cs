@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+/// <summary>
+/// 短信补充。
+/// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#sms_message"/>
+/// </summary>
+public class SmsMessage
 {
-    /// <summary>
-    /// 短信补充。
-    /// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#sms_message"/>
-    /// </summary>
-    public class SmsMessage
-    {
-        [JsonProperty("delay_time", DefaultValueHandling = DefaultValueHandling.Include)]
-        public int DelayTime { get; set; }
+    [JsonPropertyName("delay_time")]
+    public Int32 DelayTime { get; set; }
 
-        [JsonProperty("signid", NullValueHandling = NullValueHandling.Ignore)]
-        public int Signid { get; set; }
+    [JsonPropertyName("signid")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Int32 Signid { get; set; }
 
-        [JsonProperty("temp_id", DefaultValueHandling = DefaultValueHandling.Include)]
-        public long TempId { get; set; }
+    [JsonPropertyName("temp_id")]
+    public Int64 TempId { get; set; }
 
-        [JsonProperty("temp_para", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> TempPara { get; set; }
+    [JsonPropertyName("temp_para")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object> TempPara { get; set; }
 
-        [JsonProperty("active_filter", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? ActiveFilter { get; set; }
-    }
+    [JsonPropertyName("active_filter")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Boolean? ActiveFilter { get; set; }
 }

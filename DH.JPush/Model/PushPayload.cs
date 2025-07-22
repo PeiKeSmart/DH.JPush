@@ -22,11 +22,9 @@ public class PushPayload
     public Notification3rd? Notification3rd { get; set; }
 
     [JsonPropertyName("platform")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object Platform { get; set; } = "all";
+    public Object Platform { get; set; } = "all";
 
     [JsonPropertyName("audience")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Object Audience { get; set; } = "all";
 
     [JsonPropertyName("notification")]
@@ -42,14 +40,13 @@ public class PushPayload
     public SmsMessage? SMSMessage { get; set; }
 
     [JsonPropertyName("options")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(OptionsJsonConvert))]
     public Options Options { get; set; } = new Options
     {
         IsApnsProduction = false
     };
 
-    internal string GetJson()
+    internal String GetJson()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions
         {
@@ -58,8 +55,5 @@ public class PushPayload
         });
     }
 
-    public override string ToString()
-    {
-        return GetJson();
-    }
+    public override String ToString() => GetJson();
 }

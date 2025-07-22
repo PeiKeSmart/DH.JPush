@@ -37,7 +37,6 @@ public class Options
     /// <para>true: 生产环境；false: 开发环境。</para>
     /// </summary>
     [JsonPropertyName("apns_production")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Boolean IsApnsProduction { get; set; } = false;
 
     /// <summary>
