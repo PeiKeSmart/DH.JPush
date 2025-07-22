@@ -1,57 +1,65 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+public class PushPayload
 {
-    public class PushPayload
+    [JsonPropertyName("cid")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? CId { get; set; }
+
+    /// <summary>
+    /// 推送平台。可以为 "android" / "ios" / "all"。
+    /// </summary>
+
+    [JsonPropertyName("callback")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public CallBack? CallBack { get; set; }
+
+    [JsonPropertyName("notification_3rd")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Notification3rd? Notification3rd { get; set; }
+
+    [JsonPropertyName("platform")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public object Platform { get; set; } = "all";
+
+    [JsonPropertyName("audience")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Object Audience { get; set; } = "all";
+
+    [JsonPropertyName("notification")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Notification? Notification { get; set; }
+
+    [JsonPropertyName("message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Message? Message { get; set; }
+
+    [JsonPropertyName("sms_message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SmsMessage? SMSMessage { get; set; }
+
+    [JsonPropertyName("options")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(OptionsJsonConvert))]
+    public Options Options { get; set; } = new Options
     {
-        [JsonProperty("cid", NullValueHandling = NullValueHandling.Ignore)]
-        public string CId { get; set; }
+        IsApnsProduction = false
+    };
 
-        /// <summary>
-        /// 推送平台。可以为 "android" / "ios" / "all"。
-        /// </summary>
-
-        [JsonProperty("callback", NullValueHandling = NullValueHandling.Ignore)]
-        public CallBack CallBack { get; set; }
-
-        [JsonProperty("notification_3rd", NullValueHandling = NullValueHandling.Ignore)]
-        public Notification3rd Notification3rd { get; set; }
-
-        [JsonProperty("platform", DefaultValueHandling = DefaultValueHandling.Include)]
-        public object Platform { get; set; } = "all";
-
-        [JsonProperty("audience", DefaultValueHandling = DefaultValueHandling.Include)]
-        public object Audience { get; set; } = "all";
-
-        [JsonProperty("notification", NullValueHandling = NullValueHandling.Ignore)]
-        public Notification Notification { get; set; }
-
-        [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
-        public Message Message { get; set; }
-
-        [JsonProperty("sms_message", NullValueHandling = NullValueHandling.Ignore)]
-        public SmsMessage SMSMessage { get; set; }
-
-        [JsonProperty("options", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(OptionsJsonConvert))]
-        public Options Options { get; set; } = new Options
+    internal string GetJson()
+    {
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions
         {
-            IsApnsProduction = false
-        };
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false
+        });
+    }
 
-        internal string GetJson()
-        {
-            return JsonConvert.SerializeObject(this, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-        }
-
-        public override string ToString()
-        {
-            return GetJson();
-        }
+    public override string ToString()
+    {
+        return GetJson();
     }
 }
