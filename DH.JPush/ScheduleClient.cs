@@ -1,4 +1,7 @@
 ﻿using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 using Jiguang.JPush.Model;
 
@@ -11,9 +14,9 @@ public class ScheduleClient
 
     private string BASE_URL = BASE_URL_SCHEDULE_DEFAULT;
 
-    private JsonSerializer jsonSerializer = new JsonSerializer
+    private JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
     {
-        NullValueHandling = NullValueHandling.Ignore
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
     /// <summary>
@@ -57,14 +60,14 @@ public class ScheduleClient
         if (string.IsNullOrEmpty(triggeringTime))
             throw new ArgumentNullException(nameof(triggeringTime));
 
-        JObject requestJson = new JObject
+        var requestJson = new JsonObject
         {
             ["name"] = name,
             ["enabled"] = true,
-            ["push"] = JObject.FromObject(pushPayload, jsonSerializer),
-            ["trigger"] = new JObject
+            ["push"] = JsonSerializer.SerializeToNode(pushPayload, jsonSerializerOptions),
+            ["trigger"] = new JsonObject
             {
-                ["single"] = new JObject
+                ["single"] = new JsonObject
                 {
                     ["time"] = triggeringTime
                 }
@@ -101,14 +104,14 @@ public class ScheduleClient
         if (trigger == null)
             throw new ArgumentNullException(nameof(trigger));
 
-        JObject requestJson = new JObject
+        var requestJson = new JsonObject
         {
             ["name"] = name,
             ["enabled"] = true,
-            ["push"] = JObject.FromObject(pushPayload, jsonSerializer),
-            ["trigger"] = new JObject()
+            ["push"] = JsonSerializer.SerializeToNode(pushPayload, jsonSerializerOptions),
+            ["trigger"] = new JsonObject
             {
-                ["periodical"] = JObject.FromObject(trigger)
+                ["periodical"] = JsonSerializer.SerializeToNode(trigger, jsonSerializerOptions)
             }
         };
 
@@ -234,7 +237,7 @@ public class ScheduleClient
         if (String.IsNullOrEmpty(scheduleId))
             throw new ArgumentNullException(scheduleId);
 
-        JObject json = new JObject();
+        var json = new JsonObject();
 
         if (!String.IsNullOrEmpty(name))
             json["name"] = name;
@@ -244,9 +247,9 @@ public class ScheduleClient
 
         if (triggeringTime != null)
         {
-            json["trigger"] = new JObject
+            json["trigger"] = new JsonObject
             {
-                ["single"] = new JObject
+                ["single"] = new JsonObject
                 {
                     ["time"] = triggeringTime
                 }
@@ -255,7 +258,7 @@ public class ScheduleClient
 
         if (pushPayload != null)
         {
-            json["push"] = JObject.FromObject(pushPayload, jsonSerializer);
+            json["push"] = JsonSerializer.SerializeToNode(pushPayload, jsonSerializerOptions);
         }
 
         return await UpdateScheduleTaskAsync(scheduleId, json.ToString()).ConfigureAwait(false);
@@ -285,7 +288,7 @@ public class ScheduleClient
         if (String.IsNullOrEmpty(scheduleId))
             throw new ArgumentNullException(scheduleId);
 
-        JObject json = new JObject();
+        var json = new JsonObject();
 
         if (!string.IsNullOrEmpty(name))
             json["name"] = name;
@@ -295,15 +298,15 @@ public class ScheduleClient
 
         if (trigger != null)
         {
-            json["trigger"] = new JObject
+            json["trigger"] = new JsonObject
             {
-                ["periodical"] = JObject.FromObject(trigger, jsonSerializer)
+                ["periodical"] = JsonSerializer.SerializeToNode(trigger, jsonSerializerOptions)
             };
         }
 
         if (pushPayload != null)
         {
-            json["push"] = JObject.FromObject(pushPayload, jsonSerializer);
+            json["push"] = JsonSerializer.SerializeToNode(pushPayload, jsonSerializerOptions);
         }
 
         return await UpdateScheduleTaskAsync(scheduleId, json.ToString()).ConfigureAwait(false);

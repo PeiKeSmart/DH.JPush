@@ -92,13 +92,12 @@ public class ReportClient
             { "registration_ids", registrationIdList }
         };
 
-        var jsonBody = JsonSerializer.Serialize(body);
-
         if (!String.IsNullOrEmpty(data))
             body.Add("data", data);
 
+        var jsonBody = JsonSerializer.Serialize(body);
         var url = BASE_URL + "/status/message";
-        var httpContent = new StringContent(body.ToString(), Encoding.UTF8);
+        var httpContent = new StringContent(jsonBody, Encoding.UTF8);
 
         var msg = await JPushClient.HttpClient.PostAsync(url, httpContent).ConfigureAwait(false);
         var content = await msg.Content.ReadAsStringAsync().ConfigureAwait(false);
