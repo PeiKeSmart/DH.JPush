@@ -1,20 +1,21 @@
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+/// <summary>
+/// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#callback"/>
+/// </summary>
+public class CallBack
 {
-    /// <summary>
-    /// <see cref="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#callback"/>
-    /// </summary>
-    public class CallBack
-    {
-        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
-        public string Url { get; set; }
+    [JsonPropertyName("url")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public String? Url { get; set; }
 
-        [JsonProperty("params", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> Params { get; set; }
+    [JsonPropertyName("params")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<String, Object>? Params { get; set; }
 
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public int Type { get; set; }
-    }
+    [JsonPropertyName("type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Int32 Type { get; set; }
 }
