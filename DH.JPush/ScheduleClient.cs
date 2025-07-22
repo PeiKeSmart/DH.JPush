@@ -82,7 +82,7 @@ public class ScheduleClient
     /// </summary>
     /// <param name="name">表示 schedule 任务的名字，由 schedule-api 在用户成功创建 schedule 任务后返回，不得超过 255 字节，由汉字、字母、数字、下划线组成。</param>
     /// <param name="pushPayload">推送对象</param>
-    /// <param name="trigger">触发器</param>
+    /// <param name="triggeringTime"></param>
     public HttpResponse CreateSingleScheduleTask(String name, PushPayload pushPayload, String triggeringTime)
     {
         var task = Task.Run(() => CreateSingleScheduleTaskAsync(name, pushPayload, triggeringTime));
