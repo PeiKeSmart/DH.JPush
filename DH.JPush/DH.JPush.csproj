@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <RootNamespace>DH.JPush</RootNamespace>
+    <RootNamespace>Jiguang.JPush</RootNamespace>
     <AssemblyTitle>极光推送处理库</AssemblyTitle>
     <Description>用于DH框架的极光推送处理库，参考https://github.com/jpush/jpush-api-csharp-client 对标1.2.4版本</Description>
     <Company>湖北登灏科技有限公司</Company>
