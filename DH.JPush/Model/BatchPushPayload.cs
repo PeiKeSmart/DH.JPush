@@ -1,25 +1,24 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Jiguang.JPush.Model
+namespace Jiguang.JPush.Model;
+
+public class BatchPushPayload
 {
-    public class BatchPushPayload
+    [JsonPropertyName("pushlist")]
+    public Dictionary<String, SinglePayload>? Pushlist { get; set; }
+
+    internal String GetJson()
     {
-        [JsonProperty("pushlist")]
-        public Dictionary<string, SinglePayload> Pushlist { get; set; }
-
-        internal string GetJson()
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions
         {
-            return JsonConvert.SerializeObject(this, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-        }
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false
+        });
+    }
 
-        public override string ToString()
-        {
-            return GetJson();
-        }
+    public override String ToString()
+    {
+        return GetJson();
     }
 }
