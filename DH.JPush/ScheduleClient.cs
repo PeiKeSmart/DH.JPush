@@ -5,6 +5,8 @@ using System.Text.Json.Serialization;
 
 using Jiguang.JPush.Model;
 
+using NewLife;
+
 namespace Jiguang.JPush;
 
 public class ScheduleClient
@@ -37,7 +39,7 @@ public class ScheduleClient
     /// </param>
     public async Task<HttpResponse> CreateScheduleTaskAsync(String json)
     {
-        if (String.IsNullOrEmpty(json))
+        if (json.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(json));
 
         HttpContent requestContent = new StringContent(json, Encoding.UTF8);
@@ -51,13 +53,13 @@ public class ScheduleClient
     /// </summary>
     public async Task<HttpResponse> CreateSingleScheduleTaskAsync(string name, PushPayload pushPayload, string triggeringTime)
     {
-        if (string.IsNullOrEmpty(name))
+        if (name.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(name));
 
         if (pushPayload == null)
             throw new ArgumentNullException(nameof(pushPayload));
 
-        if (string.IsNullOrEmpty(triggeringTime))
+        if (triggeringTime.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(triggeringTime));
 
         var requestJson = new JsonObject
@@ -95,7 +97,7 @@ public class ScheduleClient
     /// </summary>
     public async Task<HttpResponse> CreatePeriodicalScheduleTaskAsync(String name, PushPayload pushPayload, Trigger trigger)
     {
-        if (string.IsNullOrEmpty(name))
+        if (name.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(name));
 
         if (pushPayload == null)
@@ -167,7 +169,7 @@ public class ScheduleClient
     /// </summary>
     public async Task<HttpResponse> GetScheduleTaskAsync(String scheduleId)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(scheduleId));
 
         var url = BASE_URL + $"/{scheduleId}";
@@ -193,7 +195,7 @@ public class ScheduleClient
     /// </summary>
     public async Task<HttpResponse> GetScheduleTaskMsgIdAsync(String scheduleId)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(scheduleId));
 
         var url = BASE_URL + $"/{scheduleId}/msg_ids";
@@ -215,10 +217,10 @@ public class ScheduleClient
 
     public async Task<HttpResponse> UpdateScheduleTaskAsync(String scheduleId, String json)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(scheduleId));
 
-        if (String.IsNullOrEmpty(json))
+        if (json.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(json));
 
         var url = BASE_URL + $"/{scheduleId}";
@@ -234,12 +236,12 @@ public class ScheduleClient
     public async Task<HttpResponse> UpdateSingleScheduleTaskAsync(String scheduleId, String name, Boolean? enabled,
         String triggeringTime, PushPayload pushPayload)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(scheduleId);
 
         var json = new JsonObject();
 
-        if (!String.IsNullOrEmpty(name))
+        if (!name.IsNullOrEmpty())
             json["name"] = name;
 
         if (enabled != null)
@@ -285,12 +287,12 @@ public class ScheduleClient
     public async Task<HttpResponse> UpdatePeriodicalScheduleTaskAsync(String scheduleId, String name, Boolean? enabled,
         Trigger trigger, PushPayload pushPayload)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(scheduleId);
 
         var json = new JsonObject();
 
-        if (!string.IsNullOrEmpty(name))
+        if (!name.IsNullOrEmpty())
             json["name"] = name;
 
         if (enabled != null)
@@ -333,7 +335,7 @@ public class ScheduleClient
     /// </summary>
     public async Task<HttpResponse> DeleteScheduleTaskAsync(String scheduleId)
     {
-        if (String.IsNullOrEmpty(scheduleId))
+        if (scheduleId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(scheduleId));
 
         var url = BASE_URL + $"/{scheduleId}";

@@ -3,6 +3,8 @@ using System.Text.Json;
 
 using Jiguang.JPush.Model;
 
+using NewLife;
+
 namespace Jiguang.JPush;
 
 public class ReportClient
@@ -80,7 +82,7 @@ public class ReportClient
     /// </summary>
     public async Task<HttpResponse> GetMessageSendStatusAsync(String msgId, List<String> registrationIdList, String data)
     {
-        if (string.IsNullOrEmpty(msgId))
+        if (msgId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(msgId));
 
         if (registrationIdList == null)
@@ -92,7 +94,7 @@ public class ReportClient
             { "registration_ids", registrationIdList }
         };
 
-        if (!String.IsNullOrEmpty(data))
+        if (!data.IsNullOrEmpty())
             body.Add("data", data);
 
         var jsonBody = JsonSerializer.Serialize(body);
@@ -177,7 +179,7 @@ public class ReportClient
     /// </summary>
     public async Task<HttpResponse> GetUserReportAsync(String timeUnit, String startTime, Int32 duration)
     {
-        if (String.IsNullOrEmpty(timeUnit))
+        if (timeUnit.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(timeUnit));
 
         if (startTime == null)

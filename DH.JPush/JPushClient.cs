@@ -4,6 +4,8 @@ using System.Text.Json.Nodes;
 
 using Jiguang.JPush.Model;
 
+using NewLife;
+
 namespace Jiguang.JPush;
 
 public class JPushClient
@@ -15,9 +17,7 @@ public class JPushClient
 
     public DeviceClient Device;
     public ScheduleClient Schedule;
-    private ReportClient report;
-
-    public ReportClient Report { get => report; set => report = value; }
+    public ReportClient Report { get; set; }
 
     public static HttpClient HttpClient;
 
@@ -27,12 +27,12 @@ public class JPushClient
         HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public JPushClient(String appKey, String masterSecret)
+    public JPushClient(String? appKey, String? masterSecret)
     {
-        if (String.IsNullOrEmpty(appKey))
+        if (appKey.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(appKey));
 
-        if (String.IsNullOrEmpty(masterSecret))
+        if (masterSecret.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(masterSecret));
 
         var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(appKey + ":" + masterSecret));
@@ -60,7 +60,7 @@ public class JPushClient
 
     public async Task<HttpResponse> SendPushAsync(string jsonBody)
     {
-        if (String.IsNullOrEmpty(jsonBody))
+        if (jsonBody.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(jsonBody));
 
         HttpContent httpContent = new StringContent(jsonBody, Encoding.UTF8);
@@ -95,7 +95,7 @@ public class JPushClient
 
     public async Task<HttpResponse> IsPushValidAsync(String jsonBody)
     {
-        if (string.IsNullOrEmpty(jsonBody))
+        if (jsonBody.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(jsonBody));
 
         HttpContent httpContent = new StringContent(jsonBody, Encoding.UTF8);
@@ -142,7 +142,7 @@ public class JPushClient
         {
             url += ("?count=" + count);
 
-            if (!String.IsNullOrEmpty(type))
+            if (!type.IsNullOrEmpty())
                 url += ("&type=" + type);
         }
 

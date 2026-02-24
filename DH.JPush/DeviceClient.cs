@@ -3,6 +3,8 @@ using System.Text.Json.Nodes;
 
 using Jiguang.JPush.Model;
 
+using NewLife;
+
 namespace Jiguang.JPush;
 
 public class DeviceClient
@@ -14,7 +16,7 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> GetDeviceInfoAsync(String registrationId)
     {
-        if (String.IsNullOrEmpty(registrationId))
+        if (registrationId.IsNullOrEmpty())
             throw new ArgumentNullException(registrationId);
 
         var url = BASE_URL + "/v3/devices/" + registrationId;
@@ -39,10 +41,10 @@ public class DeviceClient
 
     public async Task<HttpResponse> UpdateDeviceInfoAsync(String registrationId, String json)
     {
-        if (string.IsNullOrEmpty(registrationId))
+        if (registrationId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(registrationId));
 
-        if (string.IsNullOrEmpty(json))
+        if (json.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(json));
 
         var url = BASE_URL + "/v3/devices/" + registrationId;
@@ -57,7 +59,7 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> UpdateDeviceInfoAsync(String registrationId, DevicePayload devicePayload)
     {
-        if (string.IsNullOrEmpty(registrationId))
+        if (registrationId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(registrationId));
 
         if (devicePayload == null)
@@ -87,12 +89,12 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> GetDevicesByAliasAsync(String alias, String platform)
     {
-        if (String.IsNullOrEmpty(alias))
+        if (alias.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(alias));
 
         var url = BASE_URL + "/v3/aliases/" + alias;
 
-        if (!String.IsNullOrEmpty(platform))
+        if (!platform.IsNullOrEmpty())
             url += "?platform=" + platform;
 
         var msg = await JPushClient.HttpClient.GetAsync(url).ConfigureAwait(false);
@@ -118,12 +120,12 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> DeleteAliasAsync(String alias, String platform)
     {
-        if (String.IsNullOrEmpty(alias))
+        if (alias.IsNullOrEmpty())
             throw new ArgumentNullException(alias);
 
         var url = BASE_URL + "/v3/aliases/" + alias;
 
-        if (!String.IsNullOrEmpty(platform))
+        if (!platform.IsNullOrEmpty())
             url += "?platform=" + platform;
 
         var msg = await JPushClient.HttpClient.DeleteAsync(url).ConfigureAwait(false);
@@ -170,10 +172,10 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> IsDeviceInTagAsync(String registrationId, String tag)
     {
-        if (String.IsNullOrEmpty(registrationId))
+        if (registrationId.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(registrationId));
 
-        if (String.IsNullOrEmpty(tag))
+        if (tag.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(tag));
 
         var url = BASE_URL + "/v3/tags/" + tag + "/registration_ids/" + registrationId;
@@ -200,7 +202,7 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> AddDevicesToTagAsync(String tag, List<String> registrationIdList)
     {
-        if (String.IsNullOrEmpty(tag))
+        if (tag.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(tag));
 
         if (registrationIdList == null || registrationIdList.Count == 0)
@@ -239,7 +241,7 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> RemoveDevicesFromTagAsync(String tag, List<String> registrationIdList)
     {
-        if (string.IsNullOrEmpty(tag))
+        if (tag.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(tag));
 
         if (registrationIdList == null || registrationIdList.Count == 0)
@@ -278,12 +280,12 @@ public class DeviceClient
     /// </summary>
     public async Task<HttpResponse> DeleteTagAsync(String tag, String platform)
     {
-        if (String.IsNullOrEmpty(tag))
+        if (tag.IsNullOrEmpty())
             throw new ArgumentNullException(nameof(tag));
 
         var url = BASE_URL + "/v3/tags/" + tag;
 
-        if (!String.IsNullOrEmpty(platform))
+        if (!platform.IsNullOrEmpty())
             url += "?platform=" + platform;
 
         var msg = await JPushClient.HttpClient.DeleteAsync(url).ConfigureAwait(false);
